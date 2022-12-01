@@ -8,6 +8,7 @@ urlpatterns = [
     path('<int:pk>/', DetailView.as_view(), name='detail'),
     path('<int:pk>/results/', ResultsView.as_view(), name='results'),
     path('<int:question_id>/vote/', vote, name='vote'),
-    path('main/login', LoginView.as_view(), name='login'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', RegisterViews.as_view(), name='register'),
 ]

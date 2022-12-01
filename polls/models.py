@@ -49,4 +49,4 @@ class AbsUser(AbstractUser):
                               blank=False)
 
     def __str__(self):
-        return str(self.name) + ' ' + str(self.surname) + ' (' + str(self.username) + ')'
+        return str(self.first_name) + ' ' + str(self.last_name) + ' (' + str(self.username) + ')'

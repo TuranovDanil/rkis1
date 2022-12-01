@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import CreateView
@@ -56,6 +56,10 @@ class LoginView(LoginView):
     template_name = 'main/login.html'
     success_url = reverse_lazy('polls/index')
 
+
+class LogoutView(LogoutView):
+    template_name = 'main/logout.html'
+    success_url = reverse_lazy('polls/index')
 
 # @login_required
 # def profile(request):
