@@ -6,10 +6,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic import CreateView, DeleteView
+from django.views.generic import CreateView, DeleteView, UpdateView
 from django.shortcuts import render, redirect
 
-from .forms import RegisterUserForm
+from .forms import RegisterUserForm, ChangeUserInfoForm
 from .models import Question, Choice, AbsUser
 from django.template import loader
 from django.urls import reverse
@@ -90,19 +90,19 @@ class DeleteUserView(LoginRequiredMixin, DeleteView):
         return get_object_or_404(queryset, pk=self.user_id)
 
 
-# class ChangeUserInfoView(SuccessMessageMixin, LoginRequiredMixin,
-#                          UpdateView):
-#     model = AbsUser
-#     template_name = 'main/change_user_info.html'
-#     form_class = ChangeUserInfoForm
-#     success_url = reverse_lazy('main:profile')
-#     success_message = 'Личные данные пользователя изменены'
-#
-#     def dispatch(self, request, *args, **kwargs):
-#         self.user_id = request.user.pk
-#         return super().dispatch(request, *args, **kwargs)
-#
-#     def get_object(self, queryset=None):
-#         if not queryset:
-#             queryset = self.get_queryset()
-#         return get_object_or_404(queryset, pk=self.user_id)
+class ChangeUserInfoView(SuccessMessageMixin, LoginRequiredMixin,
+                         UpdateView):
+    model = AbsUser
+    template_name = 'main/change_user_info.html'
+    form_class = ChangeUserInfoForm
+    success_url = reverse_lazy('polls:profile')
+    success_message = 'Личные данные пользователя изменены'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.user_id = request.user.pk
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        if not queryset:
+            queryset = self.get_queryset()
+        return get_object_or_404(queryset, pk=self.user_id)

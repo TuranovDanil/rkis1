@@ -50,3 +50,10 @@ class RegisterUserForm(forms.ModelForm):
         model = AbsUser
         fields = ('last_name', 'first_name', 'username', 'password', 'password2', 'photo')
         enctype = "multipart/form-data"
+
+
+class ChangeUserInfoForm(forms.ModelForm):
+    class Meta:
+        model = AbsUser
+        fields = ('username', 'first_name', 'last_name', 'photo')
+        enctype = "multipart/form-data"
