@@ -49,19 +49,18 @@ def vote(request, question_id):
 class RegisterViews(CreateView):
     template_name = 'main/register.html'
     form_class = RegisterUserForm
-    success_url = reverse_lazy('main/login')
+    success_url = reverse_lazy('polls:login')
 
 
 class LoginView(LoginView):
     template_name = 'main/login.html'
-    success_url = reverse_lazy('polls/index')
+    success_url = reverse_lazy('main:profile')
 
 
 class LogoutView(LogoutView):
     template_name = 'main/logout.html'
-    success_url = reverse_lazy('polls/index')
 
-# @login_required
-# def profile(request):
-#     request_items = request.user.request_set.order_by('-date').all()
-#     return render(request, 'main/profile.html', context={'request_items': request_items})
+
+@login_required
+def profile(request):
+    return render(request, 'main/profile.html')
