@@ -1,7 +1,7 @@
 {% extends "layout/basic.html" %}
 {% load static %}
 {% load bootstrap4 %}
-
+{% block title %} Профиль {% endblock %}
 
 {% block content %}
     <h5 class="p-3 mb-1 font-weight-normal bg-dark text-white text-center">Профиль пользователя {{ user.username }}</h5>
