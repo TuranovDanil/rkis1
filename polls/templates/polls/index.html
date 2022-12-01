@@ -1,3 +1,9 @@
+{% extends "layout/basic.html" %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block content %}
+
 {% if latest_question_list %}
 <ul>
     {% for question in latest_question_list %}
@@ -8,5 +14,6 @@
      <p>
          Нет вопросов!
      </p>
-
 {% endif %}
+
+{% endblock %}

@@ -49,11 +49,12 @@ def vote(request, question_id):
 class RegisterViews(CreateView):
     template_name = 'main/register.html'
     form_class = RegisterUserForm
-    # success_url = reverse_lazy('main:login')
+    success_url = reverse_lazy('main/login')
 
 
 class LoginView(LoginView):
     template_name = 'main/login.html'
+    success_url = reverse_lazy('polls/index')
 
 
 # @login_required
