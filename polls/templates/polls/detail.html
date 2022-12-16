@@ -1,14 +1,36 @@
+{% extends "layout/basic.html" %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block content %}
+{% if user.is_authenticated %}
+{% if question.was_published_recently or request.user.is_staff %}
+
 <form action="{% url 'polls:vote' question.id %}" method="post">
     {% csrf_token %}
+    <div class="d-flex p-3 mb-2 text-dark bg-light">
     <fieldset>
         <legend>
-            <h1>{{question.question_text}}</h1>
+            <h2>{{question.question_text}}</h2>
         </legend>
-        {% if error_message %}<p><strong> {{error_message}}</strong></p>{% endif %}
+        {% if question.img %}
+        <img class="col-2" src="{{ question.img.url  }}" alt="Картинка">
+        {% endif %}
+        <p>{{question.description_choice}}</p>
+        {% if error_message %}<p><strong> {{error_message}}</strong> </p>{% endif %}
         {% for choice in question.choice_set.all %}
         <input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{choice.id}}">
         <label for="choice{{forloop.counter}}">{{choice.choice_text}}</label><br>
         {% endfor %}
     </fieldset>
-<input type="submit" value="Vote">
+    </div>
+<input type="submit" value="Отправить">
 </form>
+
+{% else %}
+<p>у этого опроса истек срок жизни</p>
+{% endif %}
+{% else %}
+<p>войдите или зарегистрируйтесь</p>
+{% endif %}
+{% endblock %}

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
-from django.forms import TextInput
+from django.forms import TextInput, BaseInlineFormSet
 from .models import AbsUser
 
 
@@ -57,3 +57,10 @@ class ChangeUserInfoForm(forms.ModelForm):
         model = AbsUser
         fields = ('username', 'first_name', 'last_name', 'photo')
         enctype = "multipart/form-data"
+
+
+class RequiredInlineFormSet(BaseInlineFormSet):
+    def _construct_form(self, i, **kwargs):
+        form = super(RequiredInlineFormSet, self)._construct_form(i, **kwargs)
+        form.empty_permitted = False
+        return form

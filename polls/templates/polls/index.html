@@ -4,17 +4,38 @@
 {% block title %} Главная {% endblock %}
 
 {% block content %}
-
+{% if not user.is_staff%}
 {% if latest_question_list %}
 <ul>
     {% for question in latest_question_list %}
-    <li><a href="{% url 'polls:detail' question.id %}">{{question.question_text}}</a> </li>
+    {% if question.was_published_recently %}
+    <li><a href="{% url 'polls:detail' question.id %}">{{question.question_text}}</a>&emsp;
+        {{question.description_question}}
+    </li>
+    {% endif %}
     {% endfor %}
 </ul>
-    {% else %}
-     <p>
-         Нет вопросов!
-     </p>
+{% else %}
+<p>
+    Нет вопросов!
+</p>
 {% endif %}
+{% endif %}
+{% if user.is_staff%}
+{% if latest_question_list %}
+<ul>
+    {% for question in latest_question_list %}
 
+    <li><a href="{% url 'polls:detail' question.id %}">{{question.question_text}}</a>&emsp;
+        {{question.description_question}}
+    </li>
+
+    {% endfor %}
+</ul>
+{% else %}
+<p>
+    Нет вопросов!
+</p>
+{% endif %}
+{% endif %}
 {% endblock %}

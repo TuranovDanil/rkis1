@@ -21,6 +21,12 @@ def validate_image_size(img):
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
+    description_question = models.CharField(max_length=200, verbose_name='Краткое описание')
+    description_choice = models.CharField(max_length=200, verbose_name='Подробное описание')
+    img = models.ImageField(upload_to=get_name_file, verbose_name='Картинка',
+                            validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp']),
+                                        validate_image_size],
+                            blank=True, null=True)
 
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
@@ -31,11 +37,16 @@ class Question(models.Model):
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
+    choice_text = models.CharField(max_length=200, blank=False)
     votes = models.IntegerField(default=0)
 
     def __str__(self):
         return self.choice_text
+
+
+class Vote(models.Model):
+    voter = models.ForeignKey('AbsUser', verbose_name='Пользователь', related_name='+', on_delete=models.CASCADE)
+    question_vote = models.ForeignKey(Question, verbose_name='Опрос', on_delete=models.CASCADE)
 
 
 class AbsUser(AbstractUser):
